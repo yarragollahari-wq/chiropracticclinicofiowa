@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+@theme {
+  /* ---- Brand palette (extracted from reference theme, retuned for CCOI) ---- */
+  --color-brand: #1344fe;
+  --color-brand-600: #0f39d6;
+  --color-brand-700: #0c2fb3;
+  --color-ink: #1b123d;
+  --color-muted: #636977;
+  --color-surface: #f5f6f9;
+  --color-accent: #ff623a;
+
+  --font-display: var(--font-poppins), "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-instrument), "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-section: 32px;
+  --radius-card: 20px;
+  --radius-btn: 12px;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --page-gutter: 16px;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    background: #ffffff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--color-brand);
+    color: #fff;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+
+  /* Reference theme display scale */
+  h1 { font-size: clamp(38px, 5vw, 72px); line-height: 1.08; letter-spacing: -0.05em; }
+  h2 { font-size: clamp(32px, 3.9vw, 56px); line-height: 1.14; letter-spacing: -0.03em; }
+  h3 { font-size: clamp(24px, 2.4vw, 34px); line-height: 1.2; letter-spacing: -0.03em; }
+  h4 { font-size: clamp(19px, 1.5vw, 22px); line-height: 1.3; letter-spacing: -0.02em; }
+
+  button, a { cursor: pointer; }
+}
+
+@layer utilities {
+  .shell {
+    width: 100%;
+    max-width: 1120px;
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+  .shell-wide {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+
+  /* Rounded full-bleed section panels, matching the reference 32px radius + 16px gutter */
+  .panel {
+    margin-inline: var(--page-gutter);
+    border-radius: var(--radius-section);
+    overflow: clip;
+    position: relative;
+  }
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { scrollbar-width: none; }
+
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  }
+  .mask-fade-y {
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+    mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+  }
+}
+
+/* Vertical marquee used by the hero doctor columns */
+@keyframes ccoi-marquee-up {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(0, -50%, 0); }
+}
+@keyframes ccoi-marquee-down {
+  from { transform: translate3d(0, -50%, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+.marquee-up   { animation: ccoi-marquee-up var(--dur, 46s) linear infinite; }
+.marquee-down { animation: ccoi-marquee-down var(--dur, 52s) linear infinite; }
+.marquee-pause:hover .marquee-up,
+.marquee-pause:hover .marquee-down { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-up, .marquee-down { animation: none !important; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
